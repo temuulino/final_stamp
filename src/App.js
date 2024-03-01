@@ -32,18 +32,18 @@ function App() {
         const stampHeight = stampDims.height;
 
         let stampX;
-        switch (stampPosition) {
-          case "left":
-            stampX = 20;
-            break;
-          case "center":
-            stampX = width / 2 - stampWidth / 2;
-            break;
-          case "right":
-          default:
-            stampX = width - stampWidth - 20;
-            break;
-        }
+        const getPositionText = (position) => {
+          switch (position) {
+            case "left":
+              return "Зүүн талд";
+            case "center":
+              return "Төвд";
+            case "right":
+              return "Баруун талд";
+            default:
+              return "";
+          }
+        };
         const stampY = 20;
 
         page.drawImage(stampImageObj, {
