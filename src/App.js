@@ -17,7 +17,7 @@ function App() {
   const addStampToPdf = async () => {
     try {
       if (!selectedFile || !stampImage) {
-        alert("Ээжээ pdf file болон тамгаа сонгоорой");
+        alert("Ээжээ pdf файл болон тамгаа сонгоорой");
         return;
       }
 
@@ -31,28 +31,27 @@ function App() {
         const stampWidth = stampDims.width;
         const stampHeight = stampDims.height;
 
-        // Calculate X based on the selected position
         let stampX;
         switch (stampPosition) {
           case "left":
-            stampX = 20; // Position from left
+            stampX = 20;
             break;
           case "center":
-            stampX = width / 2 - stampWidth / 2; // Center position
+            stampX = width / 2 - stampWidth / 2;
             break;
           case "right":
           default:
-            stampX = width - stampWidth - 20; // Position from right
+            stampX = width - stampWidth - 20;
             break;
         }
-        const stampY = 20; // Position from bottom
+        const stampY = 20;
 
         page.drawImage(stampImageObj, {
           x: stampX,
           y: stampY,
           width: stampWidth,
           height: stampHeight,
-          color: rgb(1, 0, 0), // Optional: Red color
+          color: rgb(1, 0, 0),
         });
       });
 
@@ -68,6 +67,29 @@ function App() {
     }
   };
 
+  const buttonContainerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    margin: "20px 0",
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    padding: "10px 20px",
+    fontSize: "1rem",
+    cursor: "pointer",
+    margin: "0 10px",
+  };
+
+  const positionTextStyle = {
+    color: "#333",
+    fontSize: "1.2rem",
+    marginTop: "20px",
+  };
+
   return (
     <div
       className="App"
@@ -80,61 +102,69 @@ function App() {
       <h1 style={{ color: "#333", fontSize: "2rem", marginBottom: "20px" }}>
         Ээжийн тамга
       </h1>
-      <label
-        htmlFor="pdfInput"
-        style={{
-          fontSize: "1rem",
-          color: "#555",
-          marginBottom: "10px",
-          display: "block",
-        }}
-      >
-        PDF файл сонгоно уу
-      </label>
-      <input
-        id="pdfInput"
-        type="file"
-        onChange={handleFileChange}
-        accept=".pdf"
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          padding: "8px",
-          marginBottom: "20px",
-          width: "80%",
-          maxWidth: "300px",
-        }}
-      />
-      <label
-        htmlFor="stampInput"
-        style={{
-          fontSize: "1rem",
-          color: "#555",
-          marginBottom: "10px",
-          display: "block",
-        }}
-      >
-        Тамга сонгоно уу
-      </label>
-      <input
-        id="stampInput"
-        type="file"
-        onChange={handleStampImageChange}
-        accept=".png, .jpg, .jpeg"
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "4px",
-          padding: "8px",
-          marginBottom: "20px",
-          width: "80%",
-          maxWidth: "300px",
-        }}
-      />
-      <div>
-        <button onClick={() => setStampPosition("left")}>Зүүн талд</button>
-        <button onClick={() => setStampPosition("center")}>Төвд</button>
-        <button onClick={() => setStampPosition("right")}>Баруун талд</button>
+
+      <div style={{ marginBottom: "20px" }}>
+        <label
+          htmlFor="pdfInput"
+          style={{ fontSize: "1rem", color: "#555", display: "block" }}
+        >
+          PDF файл сонгоно уу
+        </label>
+        <input
+          id="pdfInput"
+          type="file"
+          onChange={handleFileChange}
+          accept=".pdf"
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            padding: "8px",
+            width: "80%",
+            maxWidth: "300px",
+          }}
+        />
       </div>
+
+      <div style={{ marginBottom: "20px" }}>
+        <label
+          htmlFor="stampInput"
+          style={{ fontSize: "1rem", color: "#555", display: "block" }}
+        >
+          Тамга сонгоно уу
+        </label>
+        <input
+          id="stampInput"
+          type="file"
+          onChange={handleStampImageChange}
+          accept=".png, .jpg, .jpeg"
+          style={{
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+            padding: "8px",
+            width: "80%",
+            maxWidth: "300px",
+          }}
+        />
+      </div>
+
+      <div style={buttonContainerStyle}>
+        <button style={buttonStyle} onClick={() => setStampPosition("left")}>
+          Зүүн талд
+        </button>
+        <button style={buttonStyle} onClick={() => setStampPosition("center")}>
+          Төвд
+        </button>
+        <button style={buttonStyle} onClick={() => setStampPosition("right")}>
+          Баруун талд
+        </button>
+      </div>
+
+      {stampPosition && (
+        <div style={positionTextStyle}>
+          Сонгосон байршил: {getPositionText(stampPosition)}
+        </div>
+      )}
+
       <button
         onClick={addStampToPdf}
         style={{
@@ -149,6 +179,7 @@ function App() {
       >
         Тамга Нэмэх
       </button>
+
       <div style={{ height: "30px" }}></div>
     </div>
   );
