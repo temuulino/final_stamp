@@ -31,21 +31,6 @@ function App() {
         const stampWidth = stampDims.width;
         const stampHeight = stampDims.height;
 
-        let stampX;
-        const getPositionText = (position) => {
-          switch (position) {
-            case "left":
-              return "Зүүн талд";
-            case "center":
-              return "Төвд";
-            case "right":
-              return "Баруун талд";
-            default:
-              return "";
-          }
-        };
-        const stampY = 20;
-
         page.drawImage(stampImageObj, {
           x: stampX,
           y: stampY,
@@ -89,6 +74,21 @@ function App() {
     fontSize: "1.2rem",
     marginTop: "20px",
   };
+
+  let stampX;
+  const getPositionText = (position) => {
+    switch (position) {
+      case "left":
+        return "Зүүн талд";
+      case "center":
+        return "Төвд";
+      case "right":
+        return "Баруун талд";
+      default:
+        return "";
+    }
+  };
+  const stampY = 20;
 
   return (
     <div
