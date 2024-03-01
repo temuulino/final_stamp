@@ -4,6 +4,7 @@ import { PDFDocument, rgb } from "pdf-lib";
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [stampImage, setStampImage] = useState(null);
+  const [stampPosition, setStampPosition] = useState("right");
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -16,7 +17,6 @@ function App() {
   const addStampToPdf = async () => {
     try {
       if (!selectedFile || !stampImage) {
-        // alert("Please select a PDF file and a stamp image.");
         alert("Ээжээ pdf file болон тамгаа сонгоорой");
         return;
       }
@@ -27,11 +27,24 @@ function App() {
 
       pdfDoc.getPages().forEach((page) => {
         const stampDims = stampImageObj.scale(0.2); // Adjust stamp size
-        const { width, height } = page.getSize();
+        const { width } = page.getSize();
         const stampWidth = stampDims.width;
         const stampHeight = stampDims.height;
 
-        const stampX = width - stampWidth - 20; // Position from right
+        // Calculate X based on the selected position
+        let stampX;
+        switch (stampPosition) {
+          case "left":
+            stampX = 20; // Position from left
+            break;
+          case "center":
+            stampX = width / 2 - stampWidth / 2; // Center position
+            break;
+          case "right":
+          default:
+            stampX = width - stampWidth - 20; // Position from right
+            break;
+        }
         const stampY = 20; // Position from bottom
 
         page.drawImage(stampImageObj, {
@@ -39,7 +52,7 @@ function App() {
           y: stampY,
           width: stampWidth,
           height: stampHeight,
-          color: rgb(1, 0, 0), // Red color
+          color: rgb(1, 0, 0), // Optional: Red color
         });
       });
 
@@ -117,6 +130,11 @@ function App() {
           maxWidth: "300px",
         }}
       />
+      <div>
+        <button onClick={() => setStampPosition("left")}>Зүүн талд</button>
+        <button onClick={() => setStampPosition("center")}>Төвд</button>
+        <button onClick={() => setStampPosition("right")}>Баруун талд</button>
+      </div>
       <button
         onClick={addStampToPdf}
         style={{
