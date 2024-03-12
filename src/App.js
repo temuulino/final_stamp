@@ -26,17 +26,34 @@ function App() {
       const stampImageObj = await pdfDoc.embedPng(stampBytes);
 
       pdfDoc.getPages().forEach((page) => {
-        const stampDims = stampImageObj.scale(0.2); // Adjust stamp size
-        const { width } = page.getSize();
+        const { width, height } = page.getSize();
+        const stampDims = stampImageObj.scale(0.2); // Adjust stamp size based on your needs
         const stampWidth = stampDims.width;
         const stampHeight = stampDims.height;
+
+        // Calculate stampX based on stampPosition
+        let stampX;
+        switch (stampPosition) {
+          case "left":
+            stampX = 0; // or some margin from the left edge
+            break;
+          case "center":
+            stampX = width / 2 - stampWidth / 2;
+            break;
+          case "right":
+            stampX = width - stampWidth; // subtract stampWidth to avoid drawing part of the stamp outside the page
+            break;
+          default:
+            stampX = width - stampWidth; // Default to right if for some reason stampPosition is not set
+        }
+
+        const stampY = height - stampHeight - 20; // Adjust Y position as needed
 
         page.drawImage(stampImageObj, {
           x: stampX,
           y: stampY,
           width: stampWidth,
           height: stampHeight,
-          color: rgb(1, 0, 0),
         });
       });
 
