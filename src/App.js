@@ -47,7 +47,7 @@ function App() {
             stampX = width - stampWidth; // Default to right if for some reason stampPosition is not set
         }
 
-        const stampY = height - stampHeight - 20; // Adjust Y position as needed
+        const stampY = 10; // Adjust Y position as needed
 
         page.drawImage(stampImageObj, {
           x: stampX,
