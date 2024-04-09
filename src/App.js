@@ -27,7 +27,7 @@ function App() {
 
       pdfDoc.getPages().forEach((page) => {
         const { width, height } = page.getSize();
-        const stampDims = stampImageObj.scale(0.2); // Adjust stamp size based on your needs
+        const stampDims = stampImageObj.scale(0.3);
         const stampWidth = stampDims.width;
         const stampHeight = stampDims.height;
 
@@ -35,16 +35,16 @@ function App() {
         let stampX;
         switch (stampPosition) {
           case "left":
-            stampX = 0; // or some margin from the left edge
+            stampX = 45;
             break;
           case "center":
             stampX = width / 2 - stampWidth / 2;
             break;
           case "right":
-            stampX = width - stampWidth; // subtract stampWidth to avoid drawing part of the stamp outside the page
+            stampX = width - stampWidth;
             break;
           default:
-            stampX = width - stampWidth; // Default to right if for some reason stampPosition is not set
+            stampX = width - stampWidth;
         }
 
         const stampY = 10; // Adjust Y position as needed
